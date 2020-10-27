@@ -3,13 +3,13 @@ package tp;
 import javax.swing.*;
 
 public class App {
-    private JButton okButton;
     private JButton cancelButton;
+    private JButton okButton;
     private JTextField hostName;
     private JTextField databaseName;
     private JTextField username;
-    private JTextField password;
     private JPanel mainPanel;
+    private JPasswordField password;
 
     public App() {
 
