@@ -35,9 +35,9 @@ public class TimeLog {
         try {
 
             stmt = Main.connection.createStatement();
-            rs = stmt.executeQuery("SELECT LO1.UserId, LO1.Objecto as EncId, DATEDIFF(SS,LO1.Valor, LO2.Valor) as Tempo\n" +
-                    "FROM LogOperations LO1, LogOperations LO2" +
-                    "WHERE LO1.Referencia = LO2.Referencia and LO1.DCriacao < LO2.DCRiacao and\n" +
+            rs = stmt.executeQuery("SELECT LO1.UserId, LO1.Objecto as EncId, DATEDIFF(SS,LO1.Valor, LO2.Valor) as Tempo " +
+                    "FROM LogOperations LO1, LogOperations LO2 " +
+                    "WHERE LO1.Referencia = LO2.Referencia and LO1.DCriacao < LO2.DCRiacao and " +
                     "LO1.Referencia = 'G1-20191001101356321';");
 
             JTable table = new JTable(buildTableModel(rs));

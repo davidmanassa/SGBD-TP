@@ -18,13 +18,7 @@ public class Edit {
 
         JFrame frame = new JFrame("Indique o ID da encomenda");
         frame.setContentPane(panel);
-        // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                frame.setVisible(false);
-                new Menu();
-            }
-        });
+        // frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
 
@@ -32,7 +26,7 @@ public class Edit {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                panel.setVisible(false);
+                frame.setVisible(false);
                 new Menu();
 
             }
@@ -42,7 +36,7 @@ public class Edit {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                panel.setVisible(false);
+                frame.setVisible(false);
                 new EditEncomenda(Integer.parseInt(idEncomenda.getText()));
 
             }

@@ -1,20 +1,25 @@
 package tp;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.JTableHeader;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.math.BigDecimal;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Vector;
 
 public class Browser {
     private JTable encTable;
     private JPanel panel;
     private JButton atualizarButton;
+    private JTable productTable;
+
+    int lastSelected = -1;
 
     public Browser() {
 
@@ -32,6 +37,18 @@ public class Browser {
         frame.pack();
         frame.setVisible(true);
 
+        update();
+
+        atualizarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                update();
+            }
+        });
+    }
+
+    public void update() {
+
         Statement stmt = null;
         ResultSet rs = null;
 
@@ -39,6 +56,18 @@ public class Browser {
 
             stmt = Main.connection.createStatement();
             rs = stmt.executeQuery("SELECT * FROM Encomenda;");
+            int rowCount = getRowCount(rs);
+            stmt = Main.connection.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM Encomenda;");
+
+            MyDefaultTableModel dtm = new MyDefaultTableModel(rowCount,3);
+            encTable.setModel(dtm);
+
+            JTableHeader th = encTable.getTableHeader();
+            th.getColumnModel().getColumn(0).setHeaderValue("ID");
+            th.getColumnModel().getColumn(1).setHeaderValue("Nome");
+            th.getColumnModel().getColumn(2).setHeaderValue("Morada");
+            th.repaint();
 
             int rowI = 0;
             while (rs.next()) {
@@ -47,30 +76,9 @@ public class Browser {
                 String Nome = rs.getString("Nome");
                 String Morada = rs.getString("Morada");
 
-                rs.last();
-                int rowCount = rs.getRow();
-                rs.beforeFirst();
-
-                MyDefaultTableModel dtm = new MyDefaultTableModel(rowCount,4);
-                encTable.setModel(dtm);
-
-                JTableHeader th = encTable.getTableHeader();
-                th.getColumnModel().getColumn(0).setHeaderValue("ID");
-                th.getColumnModel().getColumn(1).setHeaderValue("Nome");
-                th.getColumnModel().getColumn(2).setHeaderValue("Morada");
-                th.getColumnModel().getColumn(3).setHeaderValue("Produtos");
-                th.repaint();
-
-                stmt = Main.connection.createStatement();
-                rs = stmt.executeQuery("SELECT * FROM EncLinha WHERE EncID="+encId+";");
-
-
-                JTable linhasTable = new JTable(buildTableModel(rs));
-
                 dtm.setValueAt(encId, rowI, 0);
                 dtm.setValueAt(Nome, rowI, 1);
                 dtm.setValueAt(Morada, rowI, 2);
-                dtm.setValueAt(new JScrollPane(linhasTable), rowI, 3);
 
                 rowI += 1;
             }
@@ -79,33 +87,66 @@ public class Browser {
             ex.printStackTrace();
         }
 
-    }
+        encTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent event) {
 
-    public static DefaultTableModel buildTableModel(ResultSet rs)
-            throws SQLException {
+                int toTry = encTable.getSelectedRow();
+                if (toTry == -1)
+                    toTry = lastSelected;
+                lastSelected = toTry;
 
-        ResultSetMetaData metaData = rs.getMetaData();
+                try {
 
-        // names of columns
-        Vector<String> columnNames = new Vector<String>();
-        int columnCount = metaData.getColumnCount();
-        for (int column = 1; column <= columnCount; column++) {
-            columnNames.add(metaData.getColumnName(column));
-        }
+                    int encId = Integer.parseInt(encTable.getValueAt(toTry, 0).toString());
 
-        // data of the table
-        Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-        while (rs.next()) {
-            Vector<Object> vector = new Vector<Object>();
-            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
-                vector.add(rs.getObject(columnIndex));
+                    System.out.println("Selected: " + encId);
+
+                    Statement stmt1 = Main.connection.createStatement();
+                    ResultSet rs1 = stmt1.executeQuery("SELECT * FROM EncLinha WHERE EncID=" + encId + ";");
+                    int rowCount = getRowCount(rs1);
+                    rs1 = stmt1.executeQuery("SELECT * FROM EncLinha WHERE EncID=" + encId + ";");
+
+                    MyDefaultTableModel dtm = new MyDefaultTableModel(rowCount,3);
+                    productTable.setModel(dtm);
+
+                    JTableHeader th = productTable.getTableHeader();
+                    th.getColumnModel().getColumn(0).setHeaderValue("Designação");
+                    th.getColumnModel().getColumn(1).setHeaderValue("Preço");
+                    th.getColumnModel().getColumn(2).setHeaderValue("Quantidade");
+                    th.repaint();
+
+                    int rowI = 0;
+                    while (rs1.next()) {
+
+                        String designacao = rs1.getString("Designacao");
+                        BigDecimal preco = rs1.getBigDecimal("Preco");
+                        BigDecimal qtd = rs1.getBigDecimal("Qtd");
+
+                        dtm.setValueAt(designacao, rowI, 0);
+                        dtm.setValueAt(preco, rowI, 1);
+                        dtm.setValueAt(qtd, rowI, 2);
+
+                        rowI += 1;
+
+                    }
+
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
             }
-            data.add(vector);
-        }
-
-        return new DefaultTableModel(data, columnNames);
-
+        });
     }
 
+    public int getRowCount(ResultSet rs) {
+        int i = 0;
+        try {
+            while (rs.next()) {
+                i++;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return i;
+    }
 
 }

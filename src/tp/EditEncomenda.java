@@ -41,13 +41,13 @@ public class EditEncomenda {
         // ----------------- REGISTO DE ENTRADA
         LocalDateTime datetime = LocalDateTime.now();
         DateTimeFormatter dateFormatted = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
-        String ref = "G1_" + dateFormatted.toString();
+        String ref = "G1_" + dateFormatted.format(datetime);
 
         try {
 
             stmt = Main.connection.createStatement();
-            rs = stmt.executeQuery("Insert Into LogOperations (EventType, Objecto, Valor, Referencia)\n" +
-                    "        Values (‘O’, '"+ id +"', '" + datetime.toString() + "', '" + ref + "')");
+            stmt.executeUpdate("Insert Into LogOperations (EventType, Objecto, Valor, Referencia) " +
+                    "Values ('O', '"+ id +"', '" + System.currentTimeMillis() + "', '" + ref + "')");
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -63,8 +63,8 @@ public class EditEncomenda {
                     LocalDateTime datetime1 = LocalDateTime.now();
 
                     stmt = Main.connection.createStatement();
-                    rs = stmt.executeQuery("Insert Into LogOperations (EventType, Objecto, Valor, Referencia)\n" +
-                            "        Values (‘O’, '"+ id +"', '" + datetime1.toString() + "', '" + ref + "')");
+                    stmt.executeUpdate("Insert Into LogOperations (EventType, Objecto, Valor, Referencia) " +
+                            " Values ('O', '"+ id +"', '" + System.currentTimeMillis() + "', '" + ref + "')");
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -93,10 +93,8 @@ public class EditEncomenda {
 
             stmt = Main.connection.createStatement();
             rs = stmt.executeQuery("SELECT * FROM EncLinha WHERE EncID="+id+";");
-
-            rs.last();
-            int rowCount = rs.getRow();
-            rs.beforeFirst();
+            int rowCount = getRowCount(rs);
+            rs = stmt.executeQuery("SELECT * FROM EncLinha WHERE EncID="+id+";");
 
             MyDefaultTableModel dtm = new MyDefaultTableModel(rowCount,2);
             productTable.setModel(dtm);
@@ -137,25 +135,41 @@ public class EditEncomenda {
 
                     if (!initialAddress.equals(moradaTextField.getText())) {
                         stmt = Main.connection.createStatement();
-                        rs = stmt.executeQuery("UPDATE Encomenda SET Morada = '" + moradaTextField.getText() + "' WHERE EncID = " + id + ";");
+                        stmt.executeUpdate("UPDATE Encomenda SET Morada = '" + moradaTextField.getText() + "' WHERE EncID = " + id + ";");
                     }
 
                     for (int i = 0; i < initialQuantities.size(); i++) {
                         int newQuantity = Integer.parseInt(productTable.getValueAt(i, 1).toString());
                         String product = productTable.getValueAt(i, 0).toString();
 
-                        if (initialQuantities.get(i) != newQuantity) {
+                        if (initialQuantities.get(product) != newQuantity) {
 
                             stmt = Main.connection.createStatement();
-                            rs = stmt.executeQuery("UPDATE EncLinha SET Qtd = '" + newQuantity + "' WHERE EncID = " + id + " AND Designacao = '" + product + "';");
+                            stmt.executeUpdate("UPDATE EncLinha SET Qtd = '" + newQuantity + "' WHERE EncID = " + id + " AND Designacao = '" + product + "';");
                         }
                     }
 
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
+
+                new Menu();
+                frame.setVisible(false);
+
             }
         });
+    }
+
+    public int getRowCount(ResultSet rs) {
+        int i = 0;
+        try {
+            while (rs.next()) {
+                i++;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return i;
     }
 
 }
