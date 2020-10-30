@@ -1,6 +1,11 @@
 package tp;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class App {
     private JButton cancelButton;
@@ -13,12 +18,54 @@ public class App {
 
     public App() {
 
+        System.out.println("App");
+
         JFrame frame = new JFrame("Login...");
         frame.setContentPane(mainPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
 
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String connectionUrl =
+                        "jdbc:sqlserver://" +hostName.getText()+ ":1433;"
+                                + "database=" + databaseName.getText() + ";"
+                                + "user=" + username.getText() + ";"
+                                + "password=" + password.getText() + ";"
+                                + "encrypt=true;"
+                                + "trustServerCertificate=true;"
+                                + "loginTimeout=30;";
+
+
+                try {
+
+                    Connection connection = DriverManager.getConnection(connectionUrl);
+
+                    Main.connection = connection;
+
+                    System.out.println("Connection successful!");
+
+                    frame.setVisible(false);
+                    new IsolationLevel();
+
+                }
+                // Handle any errors that may have occurred.
+                catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+
+            }
+        });
+
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
     }
 
 }
