@@ -8,6 +8,13 @@
       <preferredSize width="600" height="400"/>
     </properties>
     <border type="none"/>
-    <children/>
+    <children>
+      <grid id="c1993" binding="buttonPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="South"/>
+        <properties/>
+        <border type="none"/>
+        <children/>
+      </grid>
+    </children>
   </grid>
 </form>

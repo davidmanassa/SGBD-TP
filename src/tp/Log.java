@@ -55,7 +55,7 @@ public class Log {
             public void run() {
                 update();
             }
-        }, 0, 5000); // 5 SECONDS
+        }, 0, 10000); // 10 SECONDS
 
     }
 

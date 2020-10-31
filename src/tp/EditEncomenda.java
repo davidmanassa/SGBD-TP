@@ -48,7 +48,9 @@ public class EditEncomenda {
 
             stmt = Main.connection.createStatement();
             stmt.executeUpdate("Insert Into LogOperations (EventType, Objecto, Valor, Referencia) " +
-                    "Values ('O', '"+ id +"', '" + System.currentTimeMillis() + "', '" + ref + "')");
+                    "Values ('O', '"+ id +"', SYSDATETIME(), '" + ref + "')");
+
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -57,20 +59,8 @@ public class EditEncomenda {
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
 
-                Statement stmt = null;
-                ResultSet rs = null;
-
-                try {
-                    LocalDateTime datetime1 = LocalDateTime.now();
-
-                    stmt = Main.connection.createStatement();
-                    stmt.executeUpdate("Insert Into LogOperations (EventType, Objecto, Valor, Referencia) " +
-                            " Values ('O', '"+ id +"', '" + System.currentTimeMillis() + "', '" + ref + "')");
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-
-                frame.setVisible(false);
+                close(id, ref);
+                frame.dispose();
                 new Menu();
 
             }
@@ -155,23 +145,27 @@ public class EditEncomenda {
                     ex.printStackTrace();
                 }
 
+                close(id, ref);
                 new Menu();
-                frame.setVisible(false);
+                frame.dispose();
 
             }
         });
     }
 
-    public int getRowCount(ResultSet rs) {
-        int i = 0;
+    public void close(int id, String ref) {
+        Statement stmt = null;
+
         try {
-            while (rs.next()) {
-                i++;
-            }
+
+            stmt = Main.connection.createStatement();
+            stmt.executeUpdate("Insert Into LogOperations (EventType, Objecto, Valor, Referencia) " +
+                    " Values ('O', '"+ id +"', SYSDATETIME(), '" + ref + "')");
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return i;
+
     }
+
 
 }

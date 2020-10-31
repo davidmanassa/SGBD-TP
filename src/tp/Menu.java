@@ -3,6 +3,8 @@ package tp;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Menu {
     private JButton editButton;
@@ -13,53 +15,60 @@ public class Menu {
 
     public Menu() {
 
-        System.out.println("Menu");
+        if (Main.menusOpened == 0) {
+            Main.menusOpened = 1;
 
-        JFrame frame = new JFrame("Menu");
-        frame.setContentPane(panel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+            System.out.println("Menu");
 
-        editButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+            JFrame frame = new JFrame("Menu");
+            frame.setContentPane(panel);
+            // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.addWindowListener(new WindowAdapter() {
+                public void windowClosing(WindowEvent e) {
+                    frame.setVisible(false);
+                    Main.menusOpened = 0;
+                }
+            });
+            frame.pack();
+            frame.setVisible(true);
 
-                frame.setVisible(false);
-                new Edit();
+            editButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
 
-            }
-        });
+                    new Edit();
 
-        browserButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+                }
+            });
 
-                frame.setVisible(false);
-                new Browser();
+            browserButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
 
-            }
-        });
+                    new Browser();
 
-        logTempoButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+                }
+            });
 
-                frame.setVisible(false);
-                new TimeLog();
+            logTempoButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
 
-            }
-        });
+                    new TimeLog();
 
-        logButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+                }
+            });
 
-                frame.setVisible(false);
-                new Log();
+            logButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
 
-            }
-        });
+                    new Log();
+
+                }
+            });
+
+        }
 
 
     }

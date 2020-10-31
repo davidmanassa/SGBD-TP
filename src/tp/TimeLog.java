@@ -2,16 +2,21 @@ package tp;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.Vector;
 
 public class TimeLog {
     private JPanel panel;
+    private JPanel buttonPanel;
 
     public TimeLog() {
 
@@ -29,18 +34,45 @@ public class TimeLog {
         frame.pack();
         frame.setVisible(true);
 
+        JButton updateButton = new JButton("Atualizar");
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                update();
+
+            }
+        });
+        buttonPanel.add(updateButton);
+
+        java.util.Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                update();
+            }
+        }, 0, 10000); // 10 SECONDS
+
+    }
+
+    public void update() {
+
         Statement stmt = null;
         ResultSet rs = null;
 
         try {
 
             stmt = Main.connection.createStatement();
-            rs = stmt.executeQuery("SELECT LO1.UserId, LO1.Objecto as EncId, DATEDIFF(SS,LO1.Valor, LO2.Valor) as Tempo " +
+            rs = stmt.executeQuery("SELECT LO1.UserId, LO1.Objecto as EncId, DATEDIFF(SS,LO1.DCriacao, LO2.DCriacao) as Tempo " +
                     "FROM LogOperations LO1, LogOperations LO2 " +
-                    "WHERE LO1.Referencia = LO2.Referencia and LO1.DCriacao < LO2.DCriacao;");
+                    "WHERE LO1.Referencia = LO2.Referencia and LO1.DCriacao < LO2.DCriacao and LO1.EventType = 'O';");
 
-                    // "and " +
-                    // "LO1.Referencia = 'G1-20191001101356321';");
+            //rs = stmt.executeQuery("SELECT LO1.UserId, LO1.Objecto as EncId, DATEDIFF(SS,LO1.Valor, LO2.Valor) as Tempo " +
+            //        "FROM LogOperations LO1, LogOperations LO2 " +
+            //        "WHERE LO1.Referencia = LO2.Referencia and LO1.DCriacao < LO2.DCriacao;");
+
+            // "and " +
+            // "LO1.Referencia = 'G1-20191001101356321';");
 
             JTable table = new JTable(buildTableModel(rs));
 
@@ -49,7 +81,6 @@ public class TimeLog {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
     }
 
     public static DefaultTableModel buildTableModel(ResultSet rs)
