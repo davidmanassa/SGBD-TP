@@ -29,7 +29,7 @@ public class Log {
         // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                frame.setVisible(false);
+                frame.dispose();
                 new Menu();
             }
         });

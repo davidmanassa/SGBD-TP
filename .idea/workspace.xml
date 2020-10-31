@@ -2,21 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6839ad4e-414e-4816-a360-3502bc54c7a7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Browser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Browser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/EditEncomenda$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/EditEncomenda$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/EditEncomenda$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/EditEncomenda$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/EditEncomenda.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/EditEncomenda.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Log.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Log.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/TimeLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/TimeLog.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tp/Browser.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/Browser.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tp/Browser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/Browser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tp/EditEncomenda.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/EditEncomenda.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tp/EditEncomenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/EditEncomenda.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tp/Edit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/Edit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tp/IsolationLevel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/IsolationLevel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tp/Log.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/Log.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tp/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tp/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tp/TimeLog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/TimeLog.form" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tp/TimeLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/TimeLog.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -113,25 +103,25 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="761" y="343" key="FileChooserDialogImpl/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1603828252112" />
-    <state width="1877" height="294" key="GridCell.Tab.0.bottom" timestamp="1604182650883">
+    <state width="1877" height="294" key="GridCell.Tab.0.bottom" timestamp="1604182903966">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="294" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1604182650883" />
+    <state width="1877" height="294" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1604182903966" />
     <state width="1877" height="294" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1604181859295" />
-    <state width="1877" height="294" key="GridCell.Tab.0.center" timestamp="1604182650883">
+    <state width="1877" height="294" key="GridCell.Tab.0.center" timestamp="1604182903965">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="294" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1604182650883" />
+    <state width="1877" height="294" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1604182903965" />
     <state width="1877" height="294" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1604181859295" />
-    <state width="1877" height="294" key="GridCell.Tab.0.left" timestamp="1604182650883">
+    <state width="1877" height="294" key="GridCell.Tab.0.left" timestamp="1604182903965">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="294" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1604182650883" />
+    <state width="1877" height="294" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1604182903965" />
     <state width="1877" height="294" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1604181859295" />
-    <state width="1877" height="294" key="GridCell.Tab.0.right" timestamp="1604182650883">
+    <state width="1877" height="294" key="GridCell.Tab.0.right" timestamp="1604182903965">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="294" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1604182650883" />
+    <state width="1877" height="294" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1604182903965" />
     <state width="1877" height="294" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1604181859295" />
     <state x="2222" y="108" key="SettingsEditor" timestamp="1604168418532">
       <screen x="1920" y="0" width="1920" height="1040" />

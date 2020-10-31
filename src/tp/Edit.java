@@ -18,7 +18,13 @@ public class Edit {
 
         JFrame frame = new JFrame("Indique o ID da encomenda");
         frame.setContentPane(panel);
-        // frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                frame.dispose();
+                new Menu();
+            }
+        });
         frame.pack();
         frame.setVisible(true);
 
