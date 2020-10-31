@@ -3,6 +3,7 @@ package tp;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,8 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Browser {
     private JTable encTable;
@@ -45,6 +48,15 @@ public class Browser {
                 update();
             }
         });
+
+        java.util.Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                update();
+            }
+        }, 0, 5000); // 5 SECONDS
+
     }
 
     public void update() {
@@ -56,11 +68,8 @@ public class Browser {
 
             stmt = Main.connection.createStatement();
             rs = stmt.executeQuery("SELECT * FROM Encomenda;");
-            int rowCount = getRowCount(rs);
-            stmt = Main.connection.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM Encomenda;");
 
-            MyDefaultTableModel dtm = new MyDefaultTableModel(rowCount,3);
+            DefaultTableModel dtm = new DefaultTableModel(0,3);
             encTable.setModel(dtm);
 
             JTableHeader th = encTable.getTableHeader();
@@ -69,18 +78,14 @@ public class Browser {
             th.getColumnModel().getColumn(2).setHeaderValue("Morada");
             th.repaint();
 
-            int rowI = 0;
             while (rs.next()) {
 
                 int encId = rs.getInt("EncID");
                 String Nome = rs.getString("Nome");
                 String Morada = rs.getString("Morada");
 
-                dtm.setValueAt(encId, rowI, 0);
-                dtm.setValueAt(Nome, rowI, 1);
-                dtm.setValueAt(Morada, rowI, 2);
+                dtm.addRow(new Object[]{encId, Nome, Morada});
 
-                rowI += 1;
             }
 
         } catch (SQLException ex) {
@@ -90,23 +95,22 @@ public class Browser {
         encTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
 
-                int toTry = encTable.getSelectedRow();
-                if (toTry == -1)
+                int toTry;
+                try {
+                    toTry = Integer.parseInt(encTable.getValueAt(encTable.getSelectedRow(), 0).toString());
+                } catch (IndexOutOfBoundsException ex) {
                     toTry = lastSelected;
+                }
                 lastSelected = toTry;
 
                 try {
 
-                    int encId = Integer.parseInt(encTable.getValueAt(toTry, 0).toString());
-
-                    System.out.println("Selected: " + encId);
+                    int encId = toTry;
 
                     Statement stmt1 = Main.connection.createStatement();
                     ResultSet rs1 = stmt1.executeQuery("SELECT * FROM EncLinha WHERE EncID=" + encId + ";");
-                    int rowCount = getRowCount(rs1);
-                    rs1 = stmt1.executeQuery("SELECT * FROM EncLinha WHERE EncID=" + encId + ";");
 
-                    MyDefaultTableModel dtm = new MyDefaultTableModel(rowCount,3);
+                    DefaultTableModel dtm = new DefaultTableModel(0,3);
                     productTable.setModel(dtm);
 
                     JTableHeader th = productTable.getTableHeader();
@@ -115,18 +119,13 @@ public class Browser {
                     th.getColumnModel().getColumn(2).setHeaderValue("Quantidade");
                     th.repaint();
 
-                    int rowI = 0;
                     while (rs1.next()) {
 
                         String designacao = rs1.getString("Designacao");
                         BigDecimal preco = rs1.getBigDecimal("Preco");
                         BigDecimal qtd = rs1.getBigDecimal("Qtd");
 
-                        dtm.setValueAt(designacao, rowI, 0);
-                        dtm.setValueAt(preco, rowI, 1);
-                        dtm.setValueAt(qtd, rowI, 2);
-
-                        rowI += 1;
+                        dtm.addRow(new Object[]{designacao, preco, qtd});
 
                     }
 
@@ -136,17 +135,4 @@ public class Browser {
             }
         });
     }
-
-    public int getRowCount(ResultSet rs) {
-        int i = 0;
-        try {
-            while (rs.next()) {
-                i++;
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return i;
-    }
-
 }

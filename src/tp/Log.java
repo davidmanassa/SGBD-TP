@@ -2,6 +2,8 @@ package tp;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.ResultSet;
@@ -9,11 +11,14 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.Vector;
 
 public class Log {
 
     private JPanel panel;
+    private JPanel buttonPanel;
 
     public Log() {
 
@@ -31,13 +36,38 @@ public class Log {
         frame.pack();
         frame.setVisible(true);
 
+        JButton updateButton = new JButton("Atualizar");
+        updateButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                update();
+
+            }
+        });
+        buttonPanel.add(updateButton);
+
+        update();
+
+        java.util.Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                update();
+            }
+        }, 0, 5000); // 5 SECONDS
+
+    }
+
+    public void update() {
+
         Statement stmt = null;
         ResultSet rs = null;
 
         try {
 
             stmt = Main.connection.createStatement();
-            rs = stmt.executeQuery("SELECT TOP 10 * FROM LogOperations WHERE EventType = 'I' OR EventType = 'U' OR EventType = 'D';");
+            rs = stmt.executeQuery("SELECT TOP 50 * FROM LogOperations WHERE EventType = 'I' OR EventType = 'U' OR EventType = 'D' ORDER BY DCriacao DESC;");
 
             JTable table = new JTable(buildTableModel(rs));
 

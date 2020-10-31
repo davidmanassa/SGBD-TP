@@ -1,6 +1,7 @@
 package tp;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -93,10 +94,8 @@ public class EditEncomenda {
 
             stmt = Main.connection.createStatement();
             rs = stmt.executeQuery("SELECT * FROM EncLinha WHERE EncID="+id+";");
-            int rowCount = getRowCount(rs);
-            rs = stmt.executeQuery("SELECT * FROM EncLinha WHERE EncID="+id+";");
 
-            MyDefaultTableModel dtm = new MyDefaultTableModel(rowCount,2);
+            MyDefaultTableModel dtm = new MyDefaultTableModel(0, 2);
             productTable.setModel(dtm);
 
             JTableHeader th = productTable.getTableHeader();
@@ -111,10 +110,10 @@ public class EditEncomenda {
                 String produto = rs.getString("Designacao");
                 int quantidade = rs.getInt("Qtd");
 
-                dtm.setValueAt(produto, rowNumber, 0);
-                dtm.setValueAt(quantidade, rowNumber, 1);
+                dtm.addRow(new Object[]{produto, quantidade});
                 dtm.setCellEditable(rowNumber, 0, false);
                 dtm.setCellEditable(rowNumber, 1, true);
+                // dtm.fireTableCellUpdated(rowNumber, 1);
 
                 initialQuantities.put(produto, quantidade);
 
@@ -136,6 +135,7 @@ public class EditEncomenda {
                     if (!initialAddress.equals(moradaTextField.getText())) {
                         stmt = Main.connection.createStatement();
                         stmt.executeUpdate("UPDATE Encomenda SET Morada = '" + moradaTextField.getText() + "' WHERE EncID = " + id + ";");
+                        System.out.println("Updating address to: " + moradaTextField.getText());
                     }
 
                     for (int i = 0; i < initialQuantities.size(); i++) {
@@ -143,6 +143,8 @@ public class EditEncomenda {
                         String product = productTable.getValueAt(i, 0).toString();
 
                         if (initialQuantities.get(product) != newQuantity) {
+
+                            System.out.println("initial quantity of " + product + ": " + initialQuantities.get(product) + " updated: " + newQuantity);
 
                             stmt = Main.connection.createStatement();
                             stmt.executeUpdate("UPDATE EncLinha SET Qtd = '" + newQuantity + "' WHERE EncID = " + id + " AND Designacao = '" + product + "';");
