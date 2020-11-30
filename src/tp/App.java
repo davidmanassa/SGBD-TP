@@ -39,6 +39,10 @@ public class App {
                                 + "trustServerCertificate=true;"
                                 + "loginTimeout=30;";
 
+                Main.hostname = hostName.getText();
+                Main.database = databaseName.getText();
+                Main.username = username.getText();
+                Main.password = password.getText();
 
                 try {
 

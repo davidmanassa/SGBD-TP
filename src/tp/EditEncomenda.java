@@ -1,15 +1,12 @@
 package tp;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -26,6 +23,8 @@ public class EditEncomenda {
     private HashMap<String, Integer> initialQuantities;
     String initialAddress;
 
+    Connection connection;
+
     public EditEncomenda(int id) {
 
         System.out.println("Edit encomenda");
@@ -39,6 +38,8 @@ public class EditEncomenda {
         Statement stmt = null;
         ResultSet rs = null;
 
+        connection = Main.getNewConnection();
+
         // ----------------- REGISTO DE ENTRADA
         LocalDateTime datetime = LocalDateTime.now();
         DateTimeFormatter dateFormatted = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
@@ -46,7 +47,7 @@ public class EditEncomenda {
 
         try {
 
-            stmt = Main.connection.createStatement();
+            stmt = connection.createStatement();
             stmt.executeUpdate("Insert Into LogOperations (EventType, Objecto, Valor, Referencia) " +
                     "Values ('O', '"+ id +"', SYSDATETIME(), '" + ref + "')");
 
@@ -68,7 +69,7 @@ public class EditEncomenda {
 
         // ----------------- LEITURA DE DADOS
         try {
-            stmt = Main.connection.createStatement();
+            stmt = connection.createStatement();
             rs = stmt.executeQuery("SELECT * FROM Encomenda WHERE EncID="+id+";");
             while (rs.next()) {
 
@@ -82,7 +83,7 @@ public class EditEncomenda {
 
             }
 
-            stmt = Main.connection.createStatement();
+            stmt = connection.createStatement();
             rs = stmt.executeQuery("SELECT * FROM EncLinha WHERE EncID="+id+";");
 
             MyDefaultTableModel dtm = new MyDefaultTableModel(0, 2);
@@ -118,13 +119,20 @@ public class EditEncomenda {
         guardarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Statement stmt = null;
+
+                PreparedStatement stmt = null;
                 ResultSet rs = null;
                 try {
 
+                    connection.setAutoCommit(false);
+                    connection.setTransactionIsolation(Main.connection.getTransactionIsolation());
+
                     if (!initialAddress.equals(moradaTextField.getText())) {
-                        stmt = Main.connection.createStatement();
-                        stmt.executeUpdate("UPDATE Encomenda SET Morada = '" + moradaTextField.getText() + "' WHERE EncID = " + id + ";");
+
+                        String stmtText = "UPDATE Encomenda SET Morada = '" + moradaTextField.getText() + "' WHERE EncID = " + id + ";";
+                        stmt = connection.prepareStatement(stmtText);
+                        stmt.executeUpdate();
+
                         System.out.println("Updating address to: " + moradaTextField.getText());
                     }
 
@@ -136,14 +144,28 @@ public class EditEncomenda {
 
                             System.out.println("initial quantity of " + product + ": " + initialQuantities.get(product) + " updated: " + newQuantity);
 
-                            stmt = Main.connection.createStatement();
-                            stmt.executeUpdate("UPDATE EncLinha SET Qtd = '" + newQuantity + "' WHERE EncID = " + id + " AND Designacao = '" + product + "';");
+                            String stmtText = "UPDATE EncLinha SET Qtd = '" + newQuantity + "' WHERE EncID = " + id + " AND Designacao = '" + product + "';";
+
+                            stmt = connection.prepareStatement(stmtText);
+                            stmt.executeUpdate();
+
                         }
                     }
+
+                    int confirmation = JOptionPane.showConfirmDialog(null, "Pretende guardar estas alterações?", "Confirmação", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    // 0=yes, 1=no, 2=cancel
+                    if (confirmation == 0) {
+                        connection.commit();
+                    } else {
+                        connection.rollback();
+                    }
+
+                    connection.setAutoCommit(true);
 
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
+
 
                 close(id, ref);
                 new Menu();
@@ -158,7 +180,7 @@ public class EditEncomenda {
 
         try {
 
-            stmt = Main.connection.createStatement();
+            stmt = connection.createStatement();
             stmt.executeUpdate("Insert Into LogOperations (EventType, Objecto, Valor, Referencia) " +
                     " Values ('O', '"+ id +"', SYSDATETIME(), '" + ref + "')");
         } catch (SQLException ex) {

@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,7 +23,7 @@ public class Browser {
     private JButton atualizarButton;
     private JTable productTable;
 
-    int lastSelected = -1;
+    java.util.Timer timer;
 
     public Browser() {
 
@@ -34,6 +35,8 @@ public class Browser {
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 frame.dispose();
+                if (timer != null)
+                    timer.cancel();
                 new Menu();
             }
         });
@@ -49,7 +52,7 @@ public class Browser {
             }
         });
 
-        java.util.Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {

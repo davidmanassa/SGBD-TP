@@ -21,6 +21,8 @@ public class TimeLog {
     JTable table = null;
     JScrollPane scrollPane = null;
 
+    java.util.Timer timer;
+
     public TimeLog() {
 
         System.out.println("Log Tempo");
@@ -31,6 +33,8 @@ public class TimeLog {
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 frame.dispose();
+                if (timer != null)
+                    timer.cancel();
                 new Menu();
             }
         });
@@ -50,7 +54,7 @@ public class TimeLog {
 
         update();
 
-        java.util.Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {

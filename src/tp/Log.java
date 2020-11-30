@@ -25,7 +25,10 @@ public class Log {
 
     java.util.Timer timer = null;
 
-    public Log() {
+    int rows;
+
+    public Log(int rows) {
+        this.rows = rows;
 
         System.out.println("Log");
 
@@ -74,7 +77,7 @@ public class Log {
         try {
 
             stmt = Main.connection.createStatement();
-            rs = stmt.executeQuery("SELECT TOP 50 * FROM LogOperations WHERE EventType = 'I' OR EventType = 'U' OR EventType = 'D' ORDER BY DCriacao DESC;");
+            rs = stmt.executeQuery("SELECT TOP " + rows + " * FROM LogOperations WHERE EventType = 'I' OR EventType = 'U' OR EventType = 'D' ORDER BY DCriacao DESC;");
 
             if (table == null) {
                 table = new JTable(buildTableModel(rs));

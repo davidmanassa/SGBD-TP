@@ -3,6 +3,7 @@ package tp;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -19,17 +20,20 @@ public class IsolationLevel {
         try {
 
             Statement stmt = Main.connection.createStatement();
-            // ResultSet rs = null;
 
-            if (isolation == 0)
+            if (isolation == 0) {
                 stmt.executeUpdate("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;");
-            else if (isolation == 1)
+                Main.connection.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
+            } else if (isolation == 1) {
                 stmt.executeUpdate("SET TRANSACTION ISOLATION LEVEL READ COMMITTED;");
-            else if (isolation == 2)
+                Main.connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
+            } else if (isolation == 2) {
                 stmt.executeUpdate("SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;");
-            else if (isolation == 3)
+                Main.connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
+            } else if (isolation == 3) {
                 stmt.executeUpdate("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;");
-
+                Main.connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
+            }
 
         } catch (SQLException ex) {
             ex.printStackTrace();
