@@ -20,6 +20,11 @@ public class Log {
     private JPanel panel;
     private JPanel buttonPanel;
 
+    private JScrollPane scrollPane = null;
+    private JTable table = null;
+
+    java.util.Timer timer = null;
+
     public Log() {
 
         System.out.println("Log");
@@ -30,6 +35,8 @@ public class Log {
         frame.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
                 frame.dispose();
+                if (timer != null)
+                    timer.cancel();
                 new Menu();
             }
         });
@@ -49,13 +56,13 @@ public class Log {
 
         update();
 
-        java.util.Timer timer = new Timer();
+        timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 update();
             }
-        }, 0, 10000); // 10 SECONDS
+        }, 0, 1000); // 1 SECONDS
 
     }
 
@@ -69,14 +76,23 @@ public class Log {
             stmt = Main.connection.createStatement();
             rs = stmt.executeQuery("SELECT TOP 50 * FROM LogOperations WHERE EventType = 'I' OR EventType = 'U' OR EventType = 'D' ORDER BY DCriacao DESC;");
 
-            JTable table = new JTable(buildTableModel(rs));
+            if (table == null) {
+                table = new JTable(buildTableModel(rs));
+            } else {
+                ((DefaultTableModel) table.getModel()).setRowCount(0);
+                table.setModel(buildTableModel(rs));
+            }
+            table.repaint();
 
-            JScrollPane jsp = new JScrollPane(table);
+            if (scrollPane == null) {
+                scrollPane = new JScrollPane(table);
+                scrollPane.repaint();
 
-            panel.add(jsp);
+                panel.add(scrollPane);
+            }
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            // ex.printStackTrace();
         }
 
     }

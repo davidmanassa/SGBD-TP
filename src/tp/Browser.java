@@ -55,14 +55,21 @@ public class Browser {
             public void run() {
                 update();
             }
-        }, 0, 10000); // 5 SECONDS
+        }, 0, 1000); // 1 SECONDS
 
     }
 
+    int lastSelectedID = -1;
     public void update() {
 
         Statement stmt = null;
         ResultSet rs = null;
+
+        try {
+            JLabel val = (JLabel) encTable.getValueAt(encTable.getSelectedRow(), 0);
+            lastSelectedID = Integer.parseInt(val.getText());
+        } catch (Exception ex) {
+        }
 
         try {
 
@@ -88,51 +95,68 @@ public class Browser {
 
             }
 
-        } catch (SQLException ex) {
-            ex.printStackTrace();
+            encTable.repaint();
+
+            if (lastSelectedID != -1)
+                updateProductTable(lastSelectedID);
+
+        } catch (Exception ex) {
+            // ex.printStackTrace();
         }
 
         encTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent event) {
 
-                int toTry;
+                int newId = -1;
                 try {
-                    toTry = Integer.parseInt(encTable.getValueAt(encTable.getSelectedRow(), 0).toString());
-                } catch (IndexOutOfBoundsException ex) {
-                    toTry = lastSelected;
+                    newId = Integer.parseInt(encTable.getValueAt(encTable.getSelectedRow(), 0).toString());
+                } catch (Exception ex) {
                 }
-                lastSelected = toTry;
 
-                try {
+                if (newId != -1)
+                    updateProductTable(newId);
+                else if (lastSelectedID != -1)
+                    updateProductTable(lastSelectedID);
 
-                    int encId = toTry;
-
-                    Statement stmt1 = Main.connection.createStatement();
-                    ResultSet rs1 = stmt1.executeQuery("SELECT * FROM EncLinha WHERE EncID=" + encId + ";");
-
-                    DefaultTableModel dtm = new DefaultTableModel(0,3);
-                    productTable.setModel(dtm);
-
-                    JTableHeader th = productTable.getTableHeader();
-                    th.getColumnModel().getColumn(0).setHeaderValue("Designação");
-                    th.getColumnModel().getColumn(1).setHeaderValue("Preço");
-                    th.getColumnModel().getColumn(2).setHeaderValue("Quantidade");
-                    th.repaint();
-
-                    while (rs1.next()) {
-
-                        String designacao = rs1.getString("Designacao");
-                        BigDecimal preco = rs1.getBigDecimal("Preco");
-                        BigDecimal qtd = rs1.getBigDecimal("Qtd");
-
-                        dtm.addRow(new Object[]{designacao, preco, qtd});
-
-                    }
-
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
             }
         });
     }
+
+    public void updateProductTable(int id) {
+
+        Statement stmt = null;
+        ResultSet rs = null;
+
+        try {
+
+            stmt = Main.connection.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM EncLinha WHERE EncID=" + id + ";");
+
+            DefaultTableModel dtm = new DefaultTableModel(0, 3);
+            productTable.setModel(dtm);
+
+            JTableHeader th = productTable.getTableHeader();
+            th.getColumnModel().getColumn(0).setHeaderValue("Designação");
+            th.getColumnModel().getColumn(1).setHeaderValue("Preço");
+            th.getColumnModel().getColumn(2).setHeaderValue("Quantidade");
+            th.repaint();
+
+            while (rs.next()) {
+
+                String designacao = rs.getString("Designacao");
+                BigDecimal preco = rs.getBigDecimal("Preco");
+                BigDecimal qtd = rs.getBigDecimal("Qtd");
+
+                dtm.addRow(new Object[]{designacao, preco, qtd});
+
+            }
+
+            productTable.repaint();
+
+        } catch (Exception ex) {
+            // ex.printStackTrace();
+        }
+
+    }
+
 }

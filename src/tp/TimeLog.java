@@ -18,6 +18,9 @@ public class TimeLog {
     private JPanel panel;
     private JPanel buttonPanel;
 
+    JTable table = null;
+    JScrollPane scrollPane = null;
+
     public TimeLog() {
 
         System.out.println("Log Tempo");
@@ -45,13 +48,15 @@ public class TimeLog {
         });
         buttonPanel.add(updateButton);
 
+        update();
+
         java.util.Timer timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 update();
             }
-        }, 0, 10000); // 10 SECONDS
+        }, 0, 1000); // 1 SECONDS
 
     }
 
@@ -70,16 +75,26 @@ public class TimeLog {
             //rs = stmt.executeQuery("SELECT LO1.UserId, LO1.Objecto as EncId, DATEDIFF(SS,LO1.Valor, LO2.Valor) as Tempo " +
             //        "FROM LogOperations LO1, LogOperations LO2 " +
             //        "WHERE LO1.Referencia = LO2.Referencia and LO1.DCriacao < LO2.DCriacao;");
-
             // "and " +
             // "LO1.Referencia = 'G1-20191001101356321';");
 
-            JTable table = new JTable(buildTableModel(rs));
+            if (table == null) {
+                table = new JTable(buildTableModel(rs));
+            } else {
+                ((DefaultTableModel) table.getModel()).setRowCount(0);
+                table.setModel(buildTableModel(rs));
+            }
+            table.repaint();
 
-            panel.add(new JScrollPane(table));
+            if (scrollPane == null) {
+                scrollPane = new JScrollPane(table);
+                scrollPane.repaint();
+
+                panel.add(scrollPane);
+            }
 
         } catch (SQLException ex) {
-            ex.printStackTrace();
+            // ex.printStackTrace();
         }
     }
 
