@@ -6,10 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.Collections;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
@@ -17,17 +15,52 @@ import java.util.Vector;
 public class TimeLog {
     private JPanel panel;
     private JPanel buttonPanel;
+    private JPanel label1;
+    private JComboBox transactionIsolationLevel;
+    private JLabel labelTimer;
 
     JTable table = null;
     JScrollPane scrollPane = null;
 
     java.util.Timer timer;
 
+    int insolationLevel = 1;
+    Connection conn;
+    String app = "Log Tempo";
+
+    java.util.Timer lTimer = null;
+    int timeToUpdate = 1000; // 1 segundo
+    int timeToUpdateScale = 100;
+    int currentUpdateLabel = timeToUpdate;
+    private void updateLabelTimer() {
+        labelTimer.setText("Update em: " + ((double) currentUpdateLabel / 1000));
+        currentUpdateLabel -= timeToUpdateScale;
+    }
+
     public TimeLog() {
 
-        System.out.println("Log Tempo");
+        System.out.println(app);
 
-        JFrame frame = new JFrame("Log Tempo");
+        conn = Main.getNewConnection();
+
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>( Main.isolationLevels );
+        transactionIsolationLevel.setModel( model );
+        insolationLevel = transactionIsolationLevel.getSelectedIndex();
+        Main.setIsolationLevel(conn, insolationLevel);
+        System.out.println("New isolation level for " + app +  ": " + Main.isolationLevels[insolationLevel]);
+
+        transactionIsolationLevel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                insolationLevel = transactionIsolationLevel.getSelectedIndex();
+                Main.setIsolationLevel(conn, insolationLevel);
+                System.out.println("New isolation level for " + app +  ": " + Main.isolationLevels[insolationLevel]);
+
+            }
+        });
+
+        JFrame frame = new JFrame(app);
         frame.setContentPane(panel);
         // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
@@ -35,6 +68,8 @@ public class TimeLog {
                 frame.dispose();
                 if (timer != null)
                     timer.cancel();
+                if (lTimer != null)
+                    lTimer.cancel();
                 new Menu();
             }
         });
@@ -60,7 +95,15 @@ public class TimeLog {
             public void run() {
                 update();
             }
-        }, 0, 1000); // 1 SECONDS
+        }, 0, timeToUpdate);
+
+        lTimer = new Timer();
+        lTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                updateLabelTimer();
+            }
+        }, 0, timeToUpdateScale);
 
     }
 
@@ -82,24 +125,28 @@ public class TimeLog {
             // "and " +
             // "LO1.Referencia = 'G1-20191001101356321';");
 
+            DefaultTableModel dtm = buildTableModel(rs);
             if (table == null) {
-                table = new JTable(buildTableModel(rs));
+                table = new JTable(dtm);
+                if (scrollPane == null) {
+                    scrollPane = new JScrollPane(table);
+                    scrollPane.repaint();
+
+                    panel.add(scrollPane);
+                }
             } else {
                 ((DefaultTableModel) table.getModel()).setRowCount(0);
-                table.setModel(buildTableModel(rs));
+                table.setModel(dtm);
+                dtm.fireTableDataChanged();
             }
             table.repaint();
-
-            if (scrollPane == null) {
-                scrollPane = new JScrollPane(table);
-                scrollPane.repaint();
-
-                panel.add(scrollPane);
-            }
 
         } catch (SQLException ex) {
             // ex.printStackTrace();
         }
+
+        currentUpdateLabel = timeToUpdate;
+
     }
 
     public static DefaultTableModel buildTableModel(ResultSet rs)
@@ -123,6 +170,8 @@ public class TimeLog {
             }
             data.add(vector);
         }
+
+        Collections.reverse(data);
 
         return new DefaultTableModel(data, columnNames);
 

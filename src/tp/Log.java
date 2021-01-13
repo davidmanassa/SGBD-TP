@@ -6,11 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.time.LocalDateTime;
+import java.sql.*;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
@@ -19,6 +15,9 @@ public class Log {
 
     private JPanel panel;
     private JPanel buttonPanel;
+    private JPanel isolationLevelChange;
+    private JComboBox transactionIsolationLevel;
+    private JLabel labelTimer;
 
     private JScrollPane scrollPane = null;
     private JTable table = null;
@@ -27,12 +26,44 @@ public class Log {
 
     int rows;
 
+    int insolationLevel = 1;
+    Connection conn;
+    String app = "Log";
+
+    java.util.Timer lTimer = null;
+    int timeToUpdate = 1000; // 1 segundo
+    int timeToUpdateScale = 100;
+    int currentUpdateLabel = timeToUpdate;
+    private void updateLabelTimer() {
+        labelTimer.setText("Update em: " + ((double) currentUpdateLabel / 1000));
+        currentUpdateLabel -= timeToUpdateScale;
+    }
+
     public Log(int rows) {
         this.rows = rows;
 
-        System.out.println("Log");
+        System.out.println(app);
 
-        JFrame frame = new JFrame("Log");
+        conn = Main.getNewConnection();
+
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>( Main.isolationLevels );
+        transactionIsolationLevel.setModel( model );
+        insolationLevel = transactionIsolationLevel.getSelectedIndex();
+        Main.setIsolationLevel(conn, insolationLevel);
+        System.out.println("New isolation level for " + app +  ": " + Main.isolationLevels[insolationLevel]);
+
+        transactionIsolationLevel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                insolationLevel = transactionIsolationLevel.getSelectedIndex();
+                Main.setIsolationLevel(conn, insolationLevel);
+                System.out.println("New isolation level for " + app +  ": " + Main.isolationLevels[insolationLevel]);
+
+            }
+        });
+
+        JFrame frame = new JFrame(app);
         frame.setContentPane(panel);
         // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
@@ -40,6 +71,8 @@ public class Log {
                 frame.dispose();
                 if (timer != null)
                     timer.cancel();
+                if (lTimer != null)
+                    lTimer.cancel();
                 new Menu();
             }
         });
@@ -65,7 +98,15 @@ public class Log {
             public void run() {
                 update();
             }
-        }, 0, 1000); // 1 SECONDS
+        }, 0, timeToUpdate); // 1 SECONDS
+
+        lTimer = new Timer();
+        lTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                updateLabelTimer();
+            }
+        }, 0, timeToUpdateScale);
 
     }
 
@@ -76,14 +117,16 @@ public class Log {
 
         try {
 
-            stmt = Main.connection.createStatement();
+            stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT TOP " + rows + " * FROM LogOperations WHERE EventType = 'I' OR EventType = 'U' OR EventType = 'D' ORDER BY DCriacao DESC;");
 
+            DefaultTableModel dtm = buildTableModel(rs);
             if (table == null) {
-                table = new JTable(buildTableModel(rs));
+                table = new JTable(dtm);
             } else {
                 ((DefaultTableModel) table.getModel()).setRowCount(0);
-                table.setModel(buildTableModel(rs));
+                table.setModel(dtm);
+                dtm.fireTableDataChanged();
             }
             table.repaint();
 
@@ -97,6 +140,8 @@ public class Log {
         } catch (SQLException ex) {
             // ex.printStackTrace();
         }
+
+        currentUpdateLabel = timeToUpdate;
 
     }
 

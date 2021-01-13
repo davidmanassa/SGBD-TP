@@ -7,6 +7,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class Menu {
+
     private JButton editButton;
     private JButton browserButton;
     private JButton logTempoButton;
@@ -16,6 +17,7 @@ public class Menu {
     public Menu() {
 
         if (Main.menusOpened == 0) {
+
             Main.menusOpened = 1;
 
             System.out.println("Menu");

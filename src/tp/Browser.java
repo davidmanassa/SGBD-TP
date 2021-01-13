@@ -12,7 +12,6 @@ import java.awt.event.WindowEvent;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,14 +21,48 @@ public class Browser {
     private JPanel panel;
     private JButton atualizarButton;
     private JTable productTable;
+    private JComboBox transactionIsolationLevel;
+    private JLabel labelTimer;
 
     java.util.Timer timer;
 
+    int insolationLevel = 1;
+    Connection conn;
+    String app = "Browser";
+
+    java.util.Timer lTimer = null;
+    int timeToUpdate = 5000; // 1 segundo
+    int timeToUpdateScale = 100;
+    int currentUpdateLabel = timeToUpdate;
+    private void updateLabelTimer() {
+        labelTimer.setText("Update em: " + ((double) currentUpdateLabel / 1000));
+        currentUpdateLabel -= timeToUpdateScale;
+    }
+
     public Browser() {
 
-        System.out.println("Browser");
+        System.out.println(app);
 
-        JFrame frame = new JFrame("Browser");
+        conn = Main.getNewConnection();
+
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>( Main.isolationLevels );
+        transactionIsolationLevel.setModel( model );
+        insolationLevel = transactionIsolationLevel.getSelectedIndex();
+        Main.setIsolationLevel(conn, insolationLevel);
+        System.out.println("New isolation level for " + app +  ": " + Main.isolationLevels[insolationLevel]);
+
+        transactionIsolationLevel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                insolationLevel = transactionIsolationLevel.getSelectedIndex();
+                Main.setIsolationLevel(conn, insolationLevel);
+                System.out.println("New isolation level for " + app +  ": " + Main.isolationLevels[insolationLevel]);
+
+            }
+        });
+
+        JFrame frame = new JFrame(app);
         frame.setContentPane(panel);
         // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.addWindowListener(new WindowAdapter() {
@@ -37,6 +70,8 @@ public class Browser {
                 frame.dispose();
                 if (timer != null)
                     timer.cancel();
+                if (lTimer != null)
+                    lTimer.cancel();
                 new Menu();
             }
         });
@@ -58,7 +93,15 @@ public class Browser {
             public void run() {
                 update();
             }
-        }, 0, 1000); // 1 SECONDS
+        }, 0, timeToUpdate);
+
+        lTimer = new Timer();
+        lTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                updateLabelTimer();
+            }
+        }, 0, timeToUpdateScale);
 
     }
 
@@ -69,14 +112,8 @@ public class Browser {
         ResultSet rs = null;
 
         try {
-            JLabel val = (JLabel) encTable.getValueAt(encTable.getSelectedRow(), 0);
-            lastSelectedID = Integer.parseInt(val.getText());
-        } catch (Exception ex) {
-        }
 
-        try {
-
-            stmt = Main.connection.createStatement();
+            stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT * FROM Encomenda;");
 
             DefaultTableModel dtm = new DefaultTableModel(0,3);
@@ -116,13 +153,17 @@ public class Browser {
                 } catch (Exception ex) {
                 }
 
-                if (newId != -1)
+                if (newId != -1) {
                     updateProductTable(newId);
-                else if (lastSelectedID != -1)
+                    lastSelectedID = newId;
+                } else if (lastSelectedID != -1)
                     updateProductTable(lastSelectedID);
 
             }
         });
+
+        currentUpdateLabel = timeToUpdate;
+
     }
 
     public void updateProductTable(int id) {
@@ -132,7 +173,7 @@ public class Browser {
 
         try {
 
-            stmt = Main.connection.createStatement();
+            stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT * FROM EncLinha WHERE EncID=" + id + ";");
 
             DefaultTableModel dtm = new DefaultTableModel(0, 3);

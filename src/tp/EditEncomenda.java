@@ -41,6 +41,10 @@ public class EditEncomenda {
         connection = Main.getNewConnection();
 
         // ----------------- REGISTO DE ENTRADA
+        try {
+            connection.setAutoCommit(true);
+        } catch (Exception ex) {}
+
         LocalDateTime datetime = LocalDateTime.now();
         DateTimeFormatter dateFormatted = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
         String ref = "G1_" + dateFormatted.format(datetime);

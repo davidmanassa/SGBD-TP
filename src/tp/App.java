@@ -53,7 +53,8 @@ public class App {
                     System.out.println("Connection successful!");
 
                     frame.setVisible(false);
-                    new IsolationLevel();
+                    //new IsolationLevel();
+                    new Menu();
 
                 }
                 // Handle any errors that may have occurred.

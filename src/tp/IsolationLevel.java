@@ -15,29 +15,12 @@ public class IsolationLevel {
     private JButton serializableButton;
     private JPanel panel;
 
+
+
     public void setIsolationLevel(int isolation) {
 
-        try {
+        Main.setIsolationLevel(Main.connection, isolation);
 
-            Statement stmt = Main.connection.createStatement();
-
-            if (isolation == 0) {
-                stmt.executeUpdate("SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;");
-                Main.connection.setTransactionIsolation(Connection.TRANSACTION_READ_UNCOMMITTED);
-            } else if (isolation == 1) {
-                stmt.executeUpdate("SET TRANSACTION ISOLATION LEVEL READ COMMITTED;");
-                Main.connection.setTransactionIsolation(Connection.TRANSACTION_READ_COMMITTED);
-            } else if (isolation == 2) {
-                stmt.executeUpdate("SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;");
-                Main.connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
-            } else if (isolation == 3) {
-                stmt.executeUpdate("SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;");
-                Main.connection.setTransactionIsolation(Connection.TRANSACTION_SERIALIZABLE);
-            }
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
 
     }
 
