@@ -27,8 +27,8 @@ public class Menu {
             // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.addWindowListener(new WindowAdapter() {
                 public void windowClosing(WindowEvent e) {
-                    frame.dispose();
                     Main.menusOpened = 0;
+                    frame.dispose();
                 }
             });
             frame.pack();
