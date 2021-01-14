@@ -52,9 +52,11 @@ public class App {
 
                     System.out.println("Connection successful!");
 
-                    frame.setVisible(false);
+                    //frame.setVisible(false);
                     //new IsolationLevel();
                     new Menu();
+
+                    frame.dispose();
 
                 }
                 // Handle any errors that may have occurred.

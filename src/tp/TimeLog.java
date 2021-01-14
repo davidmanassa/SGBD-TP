@@ -29,7 +29,7 @@ public class TimeLog {
     String app = "Log Tempo";
 
     java.util.Timer lTimer = null;
-    int timeToUpdate = 1000; // 1 segundo
+    int timeToUpdate = 4000; // 1 segundo
     int timeToUpdateScale = 100;
     int currentUpdateLabel = timeToUpdate;
     private void updateLabelTimer() {

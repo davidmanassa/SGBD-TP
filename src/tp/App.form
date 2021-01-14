@@ -79,7 +79,7 @@
           </grid>
         </constraints>
         <properties>
-          <text value="DESKTOP-MANASSA\\SQLEXPRESS"/>
+          <text value="D-MANASSA\\SQLEXPRESS"/>
         </properties>
       </component>
       <component id="25a31" class="javax.swing.JTextField" binding="databaseName">

@@ -25,12 +25,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6839ad4e-414e-4816-a360-3502bc54c7a7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/SGBD_TP.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace1.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/SGBD_TP_jar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/SGBD_TP_jar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SGBD-TP.iml" beforeDir="false" afterPath="$PROJECT_DIR$/SGBD-TP.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SGBD-TP.jar" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/com/intellij/uiDesigner/core/AbstractLayout.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/com/intellij/uiDesigner/core/AbstractLayout.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/com/intellij/uiDesigner/core/DimensionInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/com/intellij/uiDesigner/core/DimensionInfo.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/com/intellij/uiDesigner/core/GridConstraints.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/com/intellij/uiDesigner/core/GridConstraints.class" afterDir="false" />
@@ -42,13 +37,7 @@
       <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/com/intellij/uiDesigner/core/SupportCode.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/com/intellij/uiDesigner/core/SupportCode.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/com/intellij/uiDesigner/core/Util.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/com/intellij/uiDesigner/core/Util.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/com/intellij/uiDesigner/core/VerticalInfo.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/com/intellij/uiDesigner/core/VerticalInfo.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/App.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/IsolationLevel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/IsolationLevel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tp/App.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/App.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tp/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tp/Log.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/Log.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tp/TimeLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/TimeLog.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
