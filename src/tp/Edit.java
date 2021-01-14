@@ -59,7 +59,7 @@ public class Edit {
                 int id = Integer.parseInt(idEncomenda.getText());
 
                 try {
-
+/**
                     stmt = conn.createStatement();
                     rs = stmt.executeQuery("SELECT COUNT(NumReg) FROM LogOperations WHERE EventType = 'O' AND Objecto = '" + id + "';");
 
@@ -67,10 +67,10 @@ public class Edit {
                     int rows = rs.getInt(1);
 
                     if (rows % 2 == 0) { // It's even!!!
-
+**/
                         frame.setVisible(false);
                         new EditEncomenda(id);
-
+/**
                     } else {
 
                         JOptionPane.showMessageDialog(frame,
@@ -79,7 +79,7 @@ public class Edit {
                                 JOptionPane.ERROR_MESSAGE);
 
                     }
-
+**/
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
