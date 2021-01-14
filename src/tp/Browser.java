@@ -31,7 +31,7 @@ public class Browser {
     String app = "Browser";
 
     java.util.Timer lTimer = null;
-    int timeToUpdate = 5000; // 1 segundo
+    int timeToUpdate = 4000; // 1 segundo
     int timeToUpdateScale = 100;
     int currentUpdateLabel = timeToUpdate;
     private void updateLabelTimer() {

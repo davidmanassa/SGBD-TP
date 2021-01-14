@@ -26,39 +26,13 @@
   <component name="ChangeListManager">
     <list default="true" id="6839ad4e-414e-4816-a360-3502bc54c7a7" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/App$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/App$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/App$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/App$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/App.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/App.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Browser$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Browser$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Browser$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Browser$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Browser$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Browser$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Browser$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Browser$4.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Browser.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Browser.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/EditEncomenda$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/EditEncomenda$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/EditEncomenda$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/EditEncomenda$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/EditEncomenda.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/EditEncomenda.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/IsolationLevel$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/IsolationLevel$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/IsolationLevel$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/IsolationLevel$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/IsolationLevel$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/IsolationLevel$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/IsolationLevel$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/IsolationLevel$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/IsolationLevel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/IsolationLevel.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/TimeLog$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/TimeLog$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/TimeLog$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/TimeLog$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/TimeLog$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/TimeLog$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/TimeLog.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/TimeLog.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tp/App.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/App.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tp/App.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/App.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tp/Browser.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/Browser.form" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Edit$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Edit$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Edit$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Edit$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Edit$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Edit$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Edit.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/SGBD-TP/tp/Edit.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/tp/Browser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/Browser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tp/EditEncomenda.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/EditEncomenda.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tp/IsolationLevel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/IsolationLevel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tp/Log.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/Log.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tp/Log.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/Log.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tp/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tp/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/Menu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tp/TimeLog.form" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/TimeLog.form" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tp/TimeLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/TimeLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tp/Edit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tp/Edit.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -182,30 +156,30 @@
     <state x="541" y="211" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1606762016786" />
     <state x="761" y="343" key="FileChooserDialogImpl/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1603828252112" />
     <state x="2681" y="343" key="FileChooserDialogImpl/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1604429396606" />
-    <state width="1877" height="324" key="GridCell.Tab.0.bottom" timestamp="1610562141564">
+    <state width="1877" height="267" key="GridCell.Tab.0.bottom" timestamp="1610644522466">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="172" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1606761284393" />
-    <state width="1877" height="324" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610562141564" />
-    <state width="1877" height="294" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1604181859295" />
-    <state width="1877" height="324" key="GridCell.Tab.0.center" timestamp="1610562141564">
+    <state width="1877" height="267" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610644522466" />
+    <state width="1877" height="267" key="GridCell.Tab.0.bottom/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1610580605810" />
+    <state width="1877" height="267" key="GridCell.Tab.0.center" timestamp="1610644522466">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="172" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1606761284393" />
-    <state width="1877" height="324" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610562141564" />
-    <state width="1877" height="294" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1604181859295" />
-    <state width="1877" height="324" key="GridCell.Tab.0.left" timestamp="1610562141563">
+    <state width="1877" height="267" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610644522466" />
+    <state width="1877" height="267" key="GridCell.Tab.0.center/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1610580605810" />
+    <state width="1877" height="267" key="GridCell.Tab.0.left" timestamp="1610644522466">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="172" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1606761284392" />
-    <state width="1877" height="324" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610562141563" />
-    <state width="1877" height="294" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1604181859295" />
-    <state width="1877" height="324" key="GridCell.Tab.0.right" timestamp="1610562141564">
+    <state width="1877" height="267" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610644522466" />
+    <state width="1877" height="267" key="GridCell.Tab.0.left/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1610580605810" />
+    <state width="1877" height="267" key="GridCell.Tab.0.right" timestamp="1610644522466">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="172" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1606761284393" />
-    <state width="1877" height="324" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610562141564" />
-    <state width="1877" height="294" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1604181859295" />
+    <state width="1877" height="267" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@0.0.1920.1040" timestamp="1610644522466" />
+    <state width="1877" height="267" key="GridCell.Tab.0.right/1920.0.1920.1040/0.0.1920.1040@1920.0.1920.1040" timestamp="1610580605810" />
     <state x="215" y="0" key="SettingsEditor" timestamp="1606762023829">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
