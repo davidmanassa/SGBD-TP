@@ -19,17 +19,39 @@ public class EditEncomenda {
     private JLabel address;
     private JTable productTable;
     private JButton guardarButton;
+    private JComboBox transactionIsolationLevel;
 
     private HashMap<String, Integer> initialQuantities;
     String initialAddress;
 
-    Connection connection;
+    int insolationLevel = 1;
+    Connection conn;
+    String app = "Editar encomenda";
 
     public EditEncomenda(int id) {
 
-        System.out.println("Edit encomenda");
+        System.out.println(app);
 
-        JFrame frame = new JFrame("Editar encomenda");
+        conn = Main.getNewConnection();
+
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>( Main.isolationLevels );
+        transactionIsolationLevel.setModel( model );
+        insolationLevel = transactionIsolationLevel.getSelectedIndex();
+        Main.setIsolationLevel(conn, insolationLevel);
+        System.out.println("New isolation level for " + app +  ": " + Main.isolationLevels[insolationLevel]);
+
+        transactionIsolationLevel.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                insolationLevel = transactionIsolationLevel.getSelectedIndex();
+                Main.setIsolationLevel(conn, insolationLevel);
+                System.out.println("New isolation level for " + app +  ": " + Main.isolationLevels[insolationLevel]);
+
+            }
+        });
+
+        JFrame frame = new JFrame(app);
         frame.setContentPane(panel);
         // frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
@@ -38,11 +60,9 @@ public class EditEncomenda {
         Statement stmt = null;
         ResultSet rs = null;
 
-        connection = Main.getNewConnection();
-
         // ----------------- REGISTO DE ENTRADA
         try {
-            connection.setAutoCommit(true);
+            conn.setAutoCommit(true);
         } catch (Exception ex) {}
 
         LocalDateTime datetime = LocalDateTime.now();
@@ -51,7 +71,7 @@ public class EditEncomenda {
 
         try {
 
-            stmt = connection.createStatement();
+            stmt = conn.createStatement();
             stmt.executeUpdate("Insert Into LogOperations (EventType, Objecto, Valor, Referencia) " +
                     "Values ('O', '"+ id +"', SYSDATETIME(), '" + ref + "')");
 
@@ -73,7 +93,7 @@ public class EditEncomenda {
 
         // ----------------- LEITURA DE DADOS
         try {
-            stmt = connection.createStatement();
+            stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT * FROM Encomenda WHERE EncID="+id+";");
             while (rs.next()) {
 
@@ -87,7 +107,7 @@ public class EditEncomenda {
 
             }
 
-            stmt = connection.createStatement();
+            stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT * FROM EncLinha WHERE EncID="+id+";");
 
             MyDefaultTableModel dtm = new MyDefaultTableModel(0, 2);
@@ -128,13 +148,12 @@ public class EditEncomenda {
                 ResultSet rs = null;
                 try {
 
-                    connection.setAutoCommit(false);
-                    connection.setTransactionIsolation(Main.connection.getTransactionIsolation());
+                    conn.setAutoCommit(false);
 
                     if (!initialAddress.equals(moradaTextField.getText())) {
 
                         String stmtText = "UPDATE Encomenda SET Morada = '" + moradaTextField.getText() + "' WHERE EncID = " + id + ";";
-                        stmt = connection.prepareStatement(stmtText);
+                        stmt = conn.prepareStatement(stmtText);
                         stmt.executeUpdate();
 
                         System.out.println("Updating address to: " + moradaTextField.getText());
@@ -150,7 +169,7 @@ public class EditEncomenda {
 
                             String stmtText = "UPDATE EncLinha SET Qtd = '" + newQuantity + "' WHERE EncID = " + id + " AND Designacao = '" + product + "';";
 
-                            stmt = connection.prepareStatement(stmtText);
+                            stmt = conn.prepareStatement(stmtText);
                             stmt.executeUpdate();
 
                         }
@@ -159,16 +178,20 @@ public class EditEncomenda {
                     int confirmation = JOptionPane.showConfirmDialog(null, "Pretende guardar estas alterações?", "Confirmação", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
                     // 0=yes, 1=no, 2=cancel
                     if (confirmation == 0) {
-                        connection.commit();
+                        conn.commit();
                     } else {
-                        connection.rollback();
+                        conn.rollback();
                     }
 
-                    connection.setAutoCommit(true);
+                    conn.setAutoCommit(true);
 
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
+
+                try {
+                    conn.setAutoCommit(true);
+                } catch (Exception ex) {}
 
 
                 close(id, ref);
@@ -184,7 +207,7 @@ public class EditEncomenda {
 
         try {
 
-            stmt = connection.createStatement();
+            stmt = conn.createStatement();
             stmt.executeUpdate("Insert Into LogOperations (EventType, Objecto, Valor, Referencia) " +
                     " Values ('O', '"+ id +"', SYSDATETIME(), '" + ref + "')");
         } catch (SQLException ex) {

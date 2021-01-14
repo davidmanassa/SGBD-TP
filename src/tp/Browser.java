@@ -135,6 +135,7 @@ public class Browser {
 
             }
 
+            dtm.fireTableDataChanged();
             encTable.repaint();
 
             if (lastSelectedID != -1)
@@ -195,6 +196,7 @@ public class Browser {
 
             }
 
+            dtm.fireTableDataChanged();
             productTable.repaint();
 
         } catch (Exception ex) {
