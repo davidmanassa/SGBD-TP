@@ -92,7 +92,9 @@ public class EditEncomenda {
         });
 
         // ----------------- LEITURA DE DADOS
+
         try {
+
             stmt = conn.createStatement();
             rs = stmt.executeQuery("SELECT * FROM Encomenda WHERE EncID="+id+";");
             while (rs.next()) {
@@ -150,6 +152,7 @@ public class EditEncomenda {
 
                     conn.setAutoCommit(false);
 
+
                     if (!initialAddress.equals(moradaTextField.getText())) {
 
                         String stmtText = "UPDATE Encomenda SET Morada = '" + moradaTextField.getText() + "' WHERE EncID = " + id + ";";
@@ -183,8 +186,6 @@ public class EditEncomenda {
                         conn.rollback();
                     }
 
-                    conn.setAutoCommit(true);
-
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -206,6 +207,7 @@ public class EditEncomenda {
         Statement stmt = null;
 
         try {
+            //conn.rollback();
 
             stmt = conn.createStatement();
             stmt.executeUpdate("Insert Into LogOperations (EventType, Objecto, Valor, Referencia) " +

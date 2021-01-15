@@ -14,6 +14,30 @@ public class Menu {
     private JButton logButton;
     private JPanel panel;
 
+    private static Runnable startEdit = new Runnable() {
+        public void run() {
+            new Edit();
+        }
+    };
+
+    private static Runnable startBrowser = new Runnable() {
+        public void run() {
+            new Browser();
+        }
+    };
+
+    private static Runnable startLog = new Runnable() {
+        public void run() {
+            new setRowNumber();
+        }
+    };
+
+    private static Runnable startLogTempo = new Runnable() {
+        public void run() {
+            new TimeLog();
+        }
+    };
+
     public Menu() {
 
         if (Main.menusOpened == 0) {
@@ -38,7 +62,7 @@ public class Menu {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    new Edit();
+                    new Thread(startEdit).start();
 
                 }
             });
@@ -47,7 +71,7 @@ public class Menu {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    new Browser();
+                    new Thread(startBrowser).start();
 
                 }
             });
@@ -56,7 +80,7 @@ public class Menu {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    new TimeLog();
+                    new Thread(startLogTempo).start();
 
                 }
             });
@@ -65,7 +89,7 @@ public class Menu {
                 @Override
                 public void actionPerformed(ActionEvent e) {
 
-                    new setRowNumber();
+                    new Thread(startLog).start();
 
                 }
             });

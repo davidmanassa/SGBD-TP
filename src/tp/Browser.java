@@ -15,6 +15,9 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Browser {
     private JTable encTable;
@@ -87,14 +90,24 @@ public class Browser {
             }
         });
 
-        timer = new Timer();
+        ScheduledExecutorService exec = Executors.newSingleThreadScheduledExecutor();
+        exec.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+
+                update();
+
+            }
+        }, 0, timeToUpdate, TimeUnit.MILLISECONDS);
+
+  /**      timer = new Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
                 update();
             }
         }, 0, timeToUpdate);
-
+**/
         lTimer = new Timer();
         lTimer.schedule(new TimerTask() {
             @Override
@@ -106,7 +119,14 @@ public class Browser {
     }
 
     int lastSelectedID = -1;
-    public void update() {
+
+    private static Runnable startBrowser = new Runnable() {
+        public void run() {
+           // update();
+        }
+    };
+
+    public  void update() {
 
         Statement stmt = null;
         ResultSet rs = null;
